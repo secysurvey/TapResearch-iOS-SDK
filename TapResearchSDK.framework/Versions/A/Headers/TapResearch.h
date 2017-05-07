@@ -1,14 +1,38 @@
 //
-//  TapResearch.h
+//  TapResearch.h // AppDelegate.h
+#import <TapResearchSDK/TapResearchSDK.h>
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate, TapResearchDelegate>
+
 //  TapResearchSDK
 //
 //  Copyright (c) 2015 TapResearch. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <Foundation/Foundation.h>// AppDelegate.m
 
-@protocol TapResearchDelegate;
-@protocol TapResearchSurveyDelegate;
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions 
+{
+  // Your code logic
+
+  [TapResearch initWithApiToken:c769c374c76f9813f5bed079575fe36e
+   delegate:self];
+}
+
+@protocol TapResearchDelegate;// AppDelegate.m
+
+- (void)tapResearchDidReceiveRewardWithQuantity:(NSInteger)quantity transactionIdentifier:(NSString *)transactionIdentifier
+{
+
+  // Your virtual currency management logic goes here
+  NSLog(@"Player has earned %u gold coins!", (unsigned)quantity);
+
+}
+@protocol TapResearchSurveyDelegate;#import <TapResearchSDK/TapResearchSDK.h>
+
+- (IBAction)surveyButtonTouched:(id)sender
+{
+  [TapResearch showSurvey]
 
 /**
  Main interface for you to communicate with the TapResearch service.
@@ -74,7 +98,23 @@
  method: tapResearchSurveyNotAvailable
  abstract: Notifies the delegate when a survey is not available.
  */
-- (void)tapResearchOnSurveyNotAvailable;
+- (void)tapResearchOnSurveyNotAvailable;// InGameShopController.m
+#import <TapResearchSDK/TapResearchSDK.h>
+
+@implementation InGameShopController
+
+- (void)viewDidLoad
+{
+  [super viewDidLoad];
+
+  // Only add button if isSurveyAvailable returns true.
+  if ([TapResearch isSurveyAvailable]) {
+    // Add button
+  }
+}
+
+...
+
 
 @end
 
